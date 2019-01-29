@@ -7,6 +7,10 @@ import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'fullpage.js/vendors/scrolloverflow' // Optional. When using scrollOverflow:true
 import VueFullPage from 'vue-fullpage.js'
 
+Vue.use(SuiVue);
+Vue.use(VueAwesomeSwiper, /* { default global options } */)
+Vue.use(VueFullPage);
+
 Vue.config.productionTip = false
 
 new Vue({
@@ -14,6 +18,3 @@ new Vue({
   render: h => h(App)
 }).$mount('#app');
 
-Vue.use(SuiVue);
-Vue.use(VueAwesomeSwiper, /* { default global options } */)
-Vue.use(VueFullPage);

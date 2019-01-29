@@ -23,6 +23,11 @@ html, body {
     font-size: 10px;
   }
 }
+
+body * {
+  font-family: $korea;
+}
+
 //레이아웃
 .layout {
   position: relative;
