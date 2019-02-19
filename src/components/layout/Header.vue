@@ -1,384 +1,308 @@
 <template>
-  <!--헤더-->
   <header class="hd">
-    <button class="hd-btn hd-menu">
-      <img src="../../assets/images/localmenu.png" class="menu" alt="btn-img">
-    </button>
-    <h1 class="logo">
-      <a href="index.html">
-        <img src="../../assets/images/logo.png" alt="logo-img">
-      </a>
-    </h1>
-    <a href="contents_box.html" class="my-contents">
-      <img src="../../assets/images/contents-box.png" alt="logo-img">
-    </a>
-    <nav class="left-menu">
-      <select class="ui dropdown lang">
-        <option value="">ENG</option>
-        <option value="1">KOR</option>
+    <div class="hd__lang-wrap mo">
+      <select class="hd__lang" v-on:change="changeLocale()" v-model="locale">
+        <option class="lang-link" value="ko">KOR</option>
+        <option class="lang-link" value="en">ENG</option>
+        <option class="lang-link" value="zh">CHN</option>
       </select>
-      <button class="close-btn"><img src="../../assets/images/close.png" alt=""></button>
-      <ul class="user-info">
-        <li class="user-img">
-          <!--로그인 유저 이미지-->
-          <img class="login-user" src="../../assets/images/ic-person.png" alt="">
-          <!--로그아웃 유저 이미지-->
-          <!--<img class="logout-user" src="../../assets/images/ic-person.png" alt="">-->
-        </li>
-        <li class="login-state">
-          <p class="user-mail">condealemail@gmail.com</p>
-          <p class="user-log-history">last login Time : 2018-11-05 15:38:28</p>
-        </li>
-        <li class="logout-state">
-          <p class="advice">Login or Register</p>
-          <p class="forgot">FORGOT YOUR PASSWORD ?</p>
-        </li>
-        <li class="user-menu">
-          <button class="ui button square">
-            Log out
-          </button>
-          <a class="ui button square">
-            change password
-          </a>
-        </li>
+    </div>
+    <h1 class="hd__logo"><router-link to="/"><img src="../../assets/images/common/logo.png" alt="CONDEAL"></router-link></h1>
+    <nav class="hd__navi" :class="{active: isActive}">
+      <ul class="hd__menu">
+        <li v-on:click="closeNav(false)"><router-link to="/">CONDEAL</router-link></li>
+        <li v-on:click="closeNav(false)"><router-link to="/deal">DEAL</router-link></li>
+        <li v-on:click="closeNav(false)"><router-link to="/structure">structure</router-link></li>
+        <li v-on:click="closeNav(false)"><router-link to="/scenario">scenario</router-link></li>
+        <li v-on:click="closeNav(false)"><router-link to="/team">team</router-link></li>
+        <li v-on:click="closeNav(false)"><router-link to="/partners">partners</router-link></li>
       </ul>
-      <div class="bottom-area">
-        <ul class="left-menu-list">
-          <li><a href="mypage_verification.html">Verification</a></li>
-          <li><a href="cs.html">MY Asset</a></li>
-          <li><a href="mypage_purchase_history.html">Purchase History</a></li>
-          <li><a href="transaction_history.html">Transaction History</a></li>
-          <li><a href="contents_box.html">Content Box</a></li>
-        </ul>
-        <ul class="nav-footer">
-          <li class="ft-logo"><img src="../../assets/images/img-condeal-g.png" alt=""></li>
-          <li><p class="copy-txt">© 2018 Kstarmusic Co., Ltd. All rights reserved.</p></li>
-          <li><p class="info-txt">15 Beach Road, #02-01 Singapore 189677<br>Commercial number : 201835338W</p></li>
-        </ul>
+      <div class="hd__lang-wrap pc">
+        <select class="hd__lang" v-on:change="changeLocale()" v-model="locale">
+          <option class="lang-link" value="ko">KOR</option>
+          <option class="lang-link" value="en">ENG</option>
+          <option class="lang-link" value="zh">CHN</option>
+        </select>
       </div>
+      <!--<div class="hd__lang-wrap pc">-->
+        <!--<button class="lang-link" v-on:click="changeLocale('ko')">KO</button>-->
+        <!--<button class="lang-link" v-on:click.prevent="changeLocale('en')">EN</button>-->
+      <!--</div>-->
     </nav>
+    <button  class="hd-menu__btn" v-on:click="myFilter()" :class="{active: isActive}">
+      <i class="hd-menu__btn__line"></i>
+    </button>
+    <div class="bg-mo-menu" v-on:click="closeNav(false)" :class="{active: isActive}"></div>
   </header>
 </template>
-
 <script>
-  export default {
-
+export default {
+  name: 'Header',
+  data () {
+    return {
+      'locale': this.$i18n.locale,
+      'isActive': false
+    }
+  },
+  methods: {
+    closeNav: function (isClose) {
+      this.isActive = isClose
+    },
+    changeLocale: function () {
+      this.$i18n.locale = this.locale
+    },
+    myFilter: function () {
+      this.isActive = !this.isActive
+    }
   }
+}
 </script>
 
 <style lang="scss">
-  @mixin clearfix {
-    &::after {
-      content: '';
-      display: table;
-      clear: both;
-    }
-  }
-  //헤더
   .hd {
+    background-color: white;
+    color: $navy;
     position: fixed;
-    z-index: 100;
+    z-index: 11;
+    left: 0;
     width: 100%;
     top: 0;
-    left: 0;
-    height: 6rem;
-    text-align: center;
-    background-color: white;
-    border-bottom: 1px solid #c2c2c2;
-    .hd-btn {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      .menu {
-        width: 3.7rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 20px rgba(0,0,0,.11);
+    .hd__logo {
+      float: left;
+      margin-right: 15.8rem;
+      a {
+        display: block;
+        padding: 1.9em 4.2em;
+        @media all and (max-width: 1350px) {
+          padding: 1.9em 2em;
+        }
+        img {
+          width: 159px;
+          display: block;
+        }
       }
-      .back {
-        width: 3.2rem;
+      @media all and (max-width: 1680px) {
+        margin-right: 10.8rem;
       }
-      // 환전소 헤더
-      &.back-btn {
-        margin-left: 0.8333rem;
-        .back {
-          width: 3.3rem;
+      @media all and (max-width: 1500px) {
+        margin-right: 100px;
+      }
+      @media all and (max-width: 1400px) {
+        margin-right: 0;
+      }
+      @media all and (max-width: 990px) {
+        position: absolute;
+        left: 50%;
+        margin-left: -109px;
+      }
+      @media all and (max-width: 500px) {
+        margin-left: -74.5px;
+        top: 2px;
+        a {
+          padding: 1.5em;
+          img {
+            width: 110px;
+          }
         }
       }
     }
-    .my-contents {
-      position: absolute;
-      top: 0;
-      right: 0;
-      height: 100%;
-      img {
-        width: 3.66666rem;
-        vertical-align: middle;
-        margin-right: 0.86666666rem;
+    .hd__navi {
+      .hd__menu {
+        float: left;
+        li {
+          float: left;
+        }
+        a {
+          font-weight: 400;
+          letter-spacing: -.5px;
+          display: block;
+          padding: 2.2em .8em;
+          text-transform: uppercase;
+          color: #000;
+          &:hover {
+            color: $green;
+          }
+          @media all and (max-width: 1200px) {
+            padding: 2.2em 1.2em;
+          }
+        }
+        .router-link-exact-active {
+          color: $green;
+        }
       }
-      &:after {
+    }
+    //language
+    .hd__lang-wrap {
+      margin: 1.7em 4.2em 0 0;
+      float: right;
+      background: #f4f4f4;
+      border: 1px solid #bfbfbf;
+      padding: 4px 16px 6px 18px;
+      border-radius: 20px;
+      &.mo {
+        display: none;
+        @media all and (max-width: 990px) {
+          display: inline-block;
+          float: left;
+        }
+        @media all and (max-width: 500px) {
+          margin: 1.3em;
+          padding: 3px 13px 4px 16px;
+        }
+      }
+      @media all and (max-width: 1350px) {
+        margin: 1.9em 2em;
+      }
+      @media all and (max-width: 990px) {
+        &.pc {
+          display: none;
+        }
+      }
+    }
+    .hd__lang {
+      width: 56px;
+      font-weight: 700;
+      border: 0;
+      font-size: 0.9rem;
+      height: 20px;
+      appearance: none;
+      background-image: url("../../assets/images/common/lang_arrow.png");
+      background-color: transparent;
+      background-repeat: no-repeat;
+      background-position: 100% 73%;
+      @media all and (max-width: 500px) {
+        background-position: 100% 53%;
+        width: 45px;
+        background-size: 12px;
+      }
+      &::-ms-expand{
+        display: none;
+      }
+      &:focus {
+        outline: none;
+      }
+      .lang-link {
+        font-size: .85rem;
+        font-weight: 700;
+        width: 40px;
+        height: 40px;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+        border: 1px solid #313131;
         display: inline-block;
-        content: '';
-        width: 0;
-        height: 100%;
-        vertical-align: middle;
-      }
-    }
-    .logo {
-      display: inline-block;
-      vertical-align: middle;
-      margin: 0;
-      img {
-        width: 12.8rem;
-      }
-    }
-    .header-tit {
-      font-size: 2rem;
-      font-weight: 600;
-      line-height: 1;
-      letter-spacing: -.025em;
-      text-align: left;
-      color: #4c4c4c;
-      &.member {
-        font-size: 1.8rem;
-        font-weight: 600;
-        line-height: 1;
-        color: #292929;
+        text-align: center;
+        line-height: 39px;
       }
     }
     &:after {
-      display: inline-block;
-      content: '';
-      width: 0;
-      height: 100%;
-      vertical-align: middle;
+      content: "";
+      display: block;
+      clear: both;
+    }
+    .hd-menu__btn {
+      @media all and (min-width: 990px) {
+        display: none;
+      }
+      width: 6.7%;
+      height: 44px;
+      display: block;
+      position: fixed;
+      right: 2em;
+      top: 43px;
+      margin-top: -22px;
+      z-index: 100;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      background: transparent;
+      border: 0;
+      text-align: center;
+      background-image: url('../../assets/images/common/mo_menu_btn.png');
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+      background-size: contain;
+      @media all and (max-width: 600px){
+        top: 39px;
+      }
+      @media all and (max-width: 500px){
+        top: 36px;
+        height: 35px;
+        right: 1.3em;
+      }
+      &:focus {
+        outline: none;
+      }
+      &.active {
+        z-index: 400;
+        right: 1em;
+        margin: 0;
+        position: fixed;
+        top: 13px;
+        background-image: url('../../assets/images/common/mo_menu_btn_close.png');
+        background-size: contain;
+      }
+    }
+    @media all and (max-width: 990px) {
+      //navitgation
+      .hd__navi {
+        width: 80%;
+        height: 100%;
+        background-color: $white;
+        background-image: url('../../assets/images/common/mo_menu_bg.png');
+        background-repeat: no-repeat;
+        background-position: 0 0;
+        background-size: 3.7% 100%;
+        position: fixed;
+        top: -.1px;
+        bottom: 0;
+        left: 100%;
+        z-index: 100;
+        transition: all 0.2s ease;
+        //실제 메뉴영역
+        .hd__menu {
+          float: left;
+          width: 100%;
+          text-align: left;
+          margin-top: 50px;
+          li {
+            width: 100%;
+          }
+          a {
+            width: 100%;
+            padding: 1.1em 2em;
+            font-size: 1.2rem;
+            font-weight: 500;
+            &.mo-none {
+              display: none;
+            }
+          }
+        }
+        &.active {
+          left: 20%;
+        }
+      }
     }
   }
-  .left-menu {
-    transition: all .5s;
+  .bg-mo-menu {
+    visibility: hidden;
+    opacity: 0;
     position: fixed;
-    left: -100%;
     top: 0;
+    left: 0;
+    z-index: 70;
     width: 100%;
     height: 100%;
-    overflow-y: auto;
+    background-color: rgba(0,0,0,0.6);
+    transition-property: visibility, opacity;
+    transition-duration: 0.5s;
+    transition-timing-function: cubic-bezier(1, 0, 0, 1);
     &.active {
-      left: 0;
-    }
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    .ui.dropdown.lang {
-      position: absolute;
-      top: 1.8rem;
-      left: 1.2666rem;
-      $dropdown-height: 2.3rem;
-      min-width: auto;
-      min-height: auto;
-      width: 5.5666rem;
-      height: $dropdown-height;
-      padding: 0 0 0 1rem;
-      border-radius: 6px;
-      border: .2rem solid #d7d7d7;
-      background: {
-        image: url("../../assets/images/down-ico.png");
-        position: calc(100% - 0.4rem) center;
-        repeat: no-repeat;
-        size: 1rem;
-      };
-      .text {
-        vertical-align: middle;
-        font-size: 1.2rem;
-        font-weight: 600;
-        letter-spacing: -0.025em;
-        color: #202224;
-      }
-      &:after {
-        display: inline-block;
-        content: '';
-        width: 0;
-        height: 100%;
-        vertical-align: middle;
-      }
-      .dropdown.icon {
-        padding: 0;
-        margin: 0;
-        height: 100%;
-        top: 0;
-        right: 0;
-        &:before {
-          display: block;
-          position: absolute;
-          top: 50%;
-          right: 1rem;
-          transform: translateY(-50%);
-          content: '';
-          width: 0;
-          height: 0;
-          //border-top: 6px solid #303030;
-          //border-left: 4px solid transparent;
-          //border-right: 4px solid transparent;
-          background: {
-            image: url("../../assets/images/down-ico.png");
-            position: 0.56666rem center;
-            repeat: no-repeat;
-            size: 1rem;
-          };
-        }
-      }
-      .menu {
-        max-height: $dropdown-height*4;
-        border: .2rem solid #d7d7d7;
-        border-bottom-right-radius: 6px;
-        border-bottom-left-radius: 6px;
-        margin: 0px -.1895rem;
-        width: calc(100% + .4rem );
-        .item {
-          padding: 0 0 0 1rem!important;
-          height: $dropdown-height;
-          line-height: $dropdown-height;
-          font-size: 1.2rem;
-          font-weight: 600;
-          letter-spacing: -0.025em;
-          color: #202224;
-        }
-      }
-    }
-    .close-btn {
-      position: absolute;
-      top: 1.4rem;
-      right: 0.866rem;
-      img {
-        width: 3.6666rem;
-      }
-    }
-    .bottom-area {
-      background-color: black;
-      padding-top: 5.5666667rem;
-      padding-bottom: 3.9rem;
-    }
-    .user-info {
-      background-color: #3c4146;
-      padding: 4.4rem 0 3.8333rem;
-      .user-img {
-        margin-bottom: 1.26666rem;
-        .login-user, .logout-user {
-          width: 6rem;
-        }
-        .logout-user {
-          opacity: .3;
-        }
-      }
-      .login-state {
-        .user-mail {
-          font-size: 1.4rem;
-          font-weight: 300;
-          line-height: 1;
-          color: #ffffff;
-          margin-bottom: 0.666667rem;
-        }
-        .user-log-history {
-          font-size: .8rem;
-          font-weight: 300;
-          line-height: 1;
-          color: #ffffff;
-          margin-bottom: 1.4333333rem;
-        }
-      }
-      .logout-state {
-        .advice {
-          font-size: 0.866rem;
-          font-weight: 300;
-          line-height: 1;
-          color: #8f9194;
-          margin-bottom: 1.26666rem;
-          text-transform: uppercase;
-        }
-        .forgot{
-          font-size: 1.2rem;
-          font-weight: 600;
-          line-height: 1;
-          color: #00a2ff;
-          margin-bottom: 2.266rem;
-        }
-      }
-      .user-menu {
-        font-size: 0;
-        .ui.button {
-          width: 11.53333333rem;
-          padding: 0.9rem 0;
-          margin: 0;
-          background-color: transparent;
-          border: 1px white solid;
-          font-size: 1rem;
-          font-weight: 600;
-          line-height: 1;
-          color: #ffffff;
-          text-transform: uppercase;
-          &:nth-child(n+2) {
-            margin-left: 1.33333333rem;
-          }
-        }
-      }
-    }
-    .left-menu-list {
-      li {
-        text-align: left;
-        padding-left: 2.7rem;
-        @for $i from 1 through 5 {
-          &:nth-of-type(#{$i}) {
-            background: {
-              image: url("../../assets/images/ic-#{$i}.png");
-              position: 2.7rem center;
-              repeat: no-repeat;
-              size: 2.6rem;
-            };
-          }
-        }
-        a {
-          display: inline-block;
-          float: right;
-          border-top: 1px solid #454545;
-          width: calc(100% - 5rem);
-          padding: 1.56666rem 0 1.56666rem;
-          font-size: 1.3rem;
-          font-weight: 300;
-          line-height: 1;
-          color: #ffffff;
-          &:hover {
-            color: #a201ff;
-          }
-          &:focus {
-            outline: none;
-          }
-        }
-        &:last-child {
-          a {
-            border-bottom: 1px solid #454545;
-          }
-        }
-        @include clearfix;
-      }
-    }
-    .nav-footer {
-      margin-top: 15rem;
-      .ft-logo {
-        margin-bottom: 1.733333rem;
-        img {
-          width: 10.4rem;
-        }
-      }
-      li {
-        text-align: left;
-        padding-left: 2.7rem;
-        p {
-          font-size: .8rem;
-          font-weight: 300;
-          line-height: 1.2;
-          color: #565656;
-          &.copy-txt {
-            font-weight: 600;
-            margin-bottom: 1.2rem;
-          }
-        }
+      @media all and (max-width: 990px) {
+        visibility: visible;
+        opacity: 1;
       }
     }
   }

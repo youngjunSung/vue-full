@@ -1,5 +1,19 @@
-@import "utils/var";
-@import "utils/mixin";
-@import "base/reset";
+@import "base/base";
 @import "base/fonts";
-@import "page/common";
+@import "base/reset";
+@import "utils/mixin";
+@import "utils/var";
+
+.layout {
+	width: 1080px;
+	margin-left: auto;
+	margin-right: auto;
+	&:after {
+		content: "";
+		display: block;
+		clear: both;
+	}
+	@media all and (max-width: 1100px) {
+		width: 90%;
+	}
+}
